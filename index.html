@@ -1,0 +1,510 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+    <link rel="stylesheet" href="css/fonts.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+    <style>
+      .reveal .solid {
+        width: 2ex;
+        display:inline-block;
+        text-align:center;
+        font-weight: 400;
+      }
+      .reveal li {
+        margin-bottom: .5em;
+      }
+      .reveal pre.opacity * {
+        color: rgba(255,255,255, 0.3) !important;
+      }
+      .reveal .tag {
+        width: 12ex;
+        display:inline-block;
+        float: left;
+        font-weight:500;
+      }
+
+      .reveal pre.opacity mark,
+      .reveal pre.opacity mark * {
+        color: rgba(255,255,255, 1) !important;
+        background-color:transparent;
+      }
+
+      .reveal ul.solid-ul li {
+        list-style:none;
+      }
+
+      .hidden {
+        visibility:hidden;
+      }
+    </style>
+    <style>
+
+    </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+        <section>
+          <img style="width: 20vw" src="img/samurai.svg" alt="">
+          <h1>
+            История самурая
+          </h1>
+          <p>
+            Путь, который проходит Dart-код от IDE до браузера
+          </p>
+        </section>
+        <section>
+          <img style="width: 100vw" src="img/helloworld.png" alt="">
+        </section>
+        <section>
+        <h2>Дерево проекта</h2>
+           <pre style="width: 30%; margin: 0 auto; font-size: 5vh">
+.
+├── lib
+│   ├── app_component.css
+│   ├── app_component.dart
+│   └── app_component.html
+└── web
+    ├── index.html
+    └── main.dart
+          </pre>
+        </section>
+        <section>
+          <h2>Каким образом?</h2>
+          <div class="fragment">
+            <h4>
+              Dartium
+            </h4>
+            <img style="width: 100vw" src="img/fullhelloworld.png" alt="">
+          </div>
+          <div class="fragment">
+          <h4>
+            Браузер
+          </h4>
+          <img style="width: 100vw" src="img/174.png" alt="">
+          </div>
+        </section>
+        <section data-transition="slide-in none">
+          <pre><code data-trim>
+Loading source assets...
+Loading angular, sass_builder, dart_to_js_script_rewriter and test/pub_serve transformers...
+Building demo3... (43.1s)
+[Info from Dart2JS]:
+Compiling demo3|web/main.dart...
+[Info from Dart2JS]:
+Took 0:00:09.032240 to compile demo3|web/main.dart.
+Built 894 files to "build".
+          </code></pre>
+        </section>
+        <section data-transition="none slide-out">
+          <pre><code data-trim data-noescape>
+Loading source assets...
+Loading angular, sass_builder, dart_to_js_script_rewriter and test/pub_serve transformers...
+Building demo3... (43.1s)
+[Info from Dart2JS]:
+Compiling demo3|web/main.dart...
+[Info from Dart2JS]:
+Took 0:00:09.032240 to compile demo3|web/main.dart.
+<mark>Built 894 files to "build".</mark>
+          </code></pre>
+        </section>
+        <section>
+          <h2>
+            Откуда столько файлов?
+          </h2>
+          <img src="img/i.jpg" alt="">
+        </section>
+        <section data-transition="slide-in none">
+          <h2>Из чего состоит Dart-код?</h2>
+          <ul>
+            <li class="fragment">
+              Код проекта
+              <br>
+              <i>
+              <span class="fragment"> 5</span>
+              <span class="fragment"> + 2</span>
+
+              <span class="fragment"> или 5 - 2 + 4 </span>
+              </i>
+            </li>
+            <li class="fragment">
+              Сторонние библиотеки
+              <br>
+
+              <i class="fragment">
+                267 - 7 = 260
+              </i>
+            </li>
+            <li class="fragment">
+              Стандартная библиотека
+              <br>
+              <i class="fragment">
+                894 - 267 = 627
+              </i>
+            </li>
+          </ul>
+        </section>
+        <section data-transition="slide-out none">
+          <h2>Из чего состоит Dart-код?</h2>
+          <ul>
+            <li >
+              Код проекта
+              <br>
+              <i>
+              <span > 5</span>
+              <span > + 2</span>
+
+              <span > или 5 - 2 + 4 </span>
+              </i>
+            </li>
+            <li >
+              Сторонние библиотеки
+              <br>
+
+              <i >
+                267 - 7 = 260
+              </i>
+            </li>
+            <li >
+              <mark>Стандартная библиотека</mark>
+              <br>
+              <i >
+                894 - 267 = 627
+              </i>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>
+              Стандартная библиотека
+          </h2>
+          <ul>
+            <li class="fragment">dart:core
+              <span class="fragment">&mdash; числа, даты, коллекции, урлы</span>
+              <span class="fragment">&mdash; Lodash, Momentjs</span>
+            </li>
+            <li class="fragment">dart:async
+              <span class="fragment">&mdash; async/await, промисы, стримы</span>
+              <span class="fragment">&mdash; RxJS</span>
+            </li>
+            <li class="fragment">
+              dart:math
+              <span class="fragment">&mdash; Математика</span>
+            </li>
+            <li class="fragment">
+              dart:html
+              <span class="fragment">&mdash; Все что в браузере</span>
+            </li>
+            <li class="fragment">
+              другие
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>
+            Код проекта
+          </h2>
+          <p>
+            <br>
+            <span > 5</span>
+            <span > + 2</span>
+
+            <span > или 5 - 2 + 4 </span>
+          </p>
+        </section>
+        <section>
+          <h2>
+            Dart → Dart2JS →  JS
+          </h2>
+          <p>Разве этого не достаточно!?
+          </p>
+        </section>
+        <section>
+          <h2>
+            Есть еще pub
+          </h2>
+          <p class="fragment">
+            Пакетный менеджер<span class="fragment">, иногда выполняет функцию сборщика</span>
+          </p>
+          <img class="fragment" src="img/desktop.png" style="height: 100vh" alt="">
+        </section>
+        <section>
+          <img src="img/samurai.webp" style="height: 80vh" alt="">
+          <p>
+            <b>
+              Dart → Pub transformers → Dart2JS →  JS
+            </b>
+          </p>
+          <p class="fragment">
+            Это как лоадеры в вебпаке
+          </p>
+        </section>
+        <section data-transition="slide-in none">
+          <h2>Было</h2>
+          <ul>
+            <li> app_component.css </li>
+            <li> app_component.dart </li>
+            <li> app_component.html </li>
+            <li> main.dart </li>
+            <li><s>index.html</s></li>
+          </ul>
+        </section>
+        <section data-transition="slide-out none">
+          <h2>Было</h2>
+          <ul>
+            <li> app_component.css </li>
+            <li> app_component.dart </li>
+            <li> app_component.html </li>
+            <li> main.dart </li>
+          </ul>
+        </section>
+        <section data-transition="slide-in none">
+          <h2>Стало</h2>
+          <ul>
+            <li class="fragment">app_component.css → app_component.css.shim.dart </li>
+            <li class="fragment">app_component.dart </li>
+            <li class="fragment">app_component.html → app_component.template.dart </li>
+            <li class="fragment">main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section data-transition="none slide-out">
+          <h2>Стало</h2>
+          <ul>
+            <li ><mark>app_component.css → app_component.css.shim.dart</mark> </li>
+            <li >app_component.dart </li>
+            <li >app_component.html → app_component.template.dart </li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section data-transition="slide-in none">
+          <p>
+            app_component.dart
+          </p>
+          <pre><code data-trim style="font-size: 5vh; width: 50%; margin: 0 auto">
+@Component(
+  selector: 'my-app',
+  styleUrls: const ['app_component.css'],
+  templateUrl: 'app_component.html'
+)
+class AppComponent {
+}
+          </code></pre>
+        </section>
+        <section data-transition="slide-out none">
+          <p>
+            app_component.dart
+          </p>
+          <pre><code data-trim data-noescape style="font-size: 5vh; width: 50%; margin: 0 auto">
+@Component(
+  selector: 'my-app',
+  styleUrls: const [<mark>'app_component.css'</mark>],
+  templateUrl: 'app_component.html'
+)
+class AppComponent {
+}
+          </code></pre>
+        </section>
+        <section data-transition="slide-in none">
+          <p>
+            app_component.css
+          </p>
+          <pre><code data-trim style="font-size: 5vh; width: 90%; margin: 0 auto">
+:host {
+    color: red;
+}
+          </code></pre>
+
+          <div class="fragment">
+            <p>app_components.css.shim.dart</p>
+            <pre><code data-trim style="font-size: 5vh; width: 90%; margin: 0 auto">
+const styles = const ['._nghost-%COMP% { color:red; }'];
+            </code></pre>
+          </div>
+        </section>
+        <section  data-transition="slide-out none">
+          <p>
+            app_component.css
+          </p>
+          <pre><code data-trim style="font-size: 5vh; width: 90%; margin: 0 auto">
+:host {
+    color: red;
+}
+          </code></pre>
+
+          <p>app_components.css.shim.dart</p>
+          <pre ><code data-trim  data-noescape style="font-size: 5vh; width: 90%; margin: 0 auto">
+const styles = const ['._nghost-<mark>%COMP%</mark> { color:red; }'];
+          </code></pre>
+        </section>
+        <section data-transition="slide-in none">
+          <pre><code style="width: 70%; margin: 0 auto" data-trim data-noescape="">
+          Hello world
+          </code></pre>
+          <p>В браузере</p>
+          <pre><code style="font-size: 5vh; width:70%; margin: 0 auto;" data-trim>
+&lt;style&gt;._nghost-kpm-1 { color:red; }&lt;/style&gt;
+&lt;my-app class=&quot;_nghost-kpm-1&quot; id=&quot;&quot;&gt;
+  Hello world
+&lt;/my-app&gt;
+          </code></pre>
+          <div class="hidden">
+            <p>app_components.css.shim.dart</p>
+            <pre><code data-trim style="font-size: 5vh; width: 90%; margin: 0 auto">
+const styles = const ['._nghost-%COMP% { color:red; }'];
+            </code></pre>
+          </div>
+        </section>
+        <section data-transition="slide-out none">
+          <pre><code style="width: 70%; margin: 0 auto" data-trim data-noescape="">
+          Hello world
+          </code></pre>
+          <p>В браузере</p>
+          <pre><code data-noescape data-trim style="font-size: 5vh; width:70%; margin: 0 auto;" data-trim>
+&lt;style&gt;._nghost-<mark>kpm-1</mark> { color:red; }&lt;/style&gt;
+&lt;my-app class=&quot;_nghost-<mark>kpm-1</mark>&quot; id=&quot;&quot;&gt;
+  Hello world
+&lt;/my-app&gt;
+          </code></pre>
+          <div class="fragment">
+            <p>app_components.css.shim.dart</p>
+            <pre><code data-trim data-noescape style="font-size: 5vh; width: 70%; margin: 0 auto">
+const styles = const ['._nghost-<mark>%COMP%</mark> { color:red; }'];
+            </code></pre>
+          </div>
+        </section>
+        <section data-transition="none slide-in">
+          <h2>Стало</h2>
+          <ul>
+            <li ><mark>app_component.css → app_component.css.shim.dart</mark> </li>
+            <li >app_component.dart </li>
+            <li >app_component.html → app_component.template.dart </li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section data-transition="none">
+          <h2>Стало</h2>
+          <ul>
+            <li >app_component.css → app_component.css.shim.dart 👍</li>
+            <li >app_component.dart </li>
+            <li >app_component.html → app_component.template.dart </li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section data-transition="none">
+          <h2>Стало</h2>
+          <ul>
+            <li >app_component.css → app_component.css.shim.dart 👍</li>
+            <li ><mark>app_component.dart</mark> </li>
+            <li ><mark>app_component.html → app_component.template.dart </mark></li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section data-transition="none slide-out">
+          <h2>Стало</h2>
+          <ul>
+            <li >app_component.css → app_component.css.shim.dart 👍</li>
+            <li >app_component.dart</li>
+            <li ><mark>app_component.html → app_component.template.dart </mark></li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section>
+          <pre><code style="width: 70%; margin: 0 auto" data-trim data-noescape="">
+          Hello world
+          </code></pre>
+          <p>
+          app_component.template.dart
+          </p>
+        <pre class="fragment"><code style="width: 70%; margin: 0 auto" data-trim>
+...
+ComponentRef build() {
+    final HtmlElement parentRenderNode = initViewRoot(rootEl);
+    Text text = new Text('Hello world');
+    parentRenderNode.append(text);
+  }
+...
+        </code></pre>
+        </section>
+        <section>
+          <p>
+            AOT-компиляция
+          </p>
+          <p class="fragment">
+            JIT-компиляция
+          </p>
+        </section>
+        <section data-transition="slide-in none">
+          <h2>Стало</h2>
+          <ul>
+            <li >app_component.css → app_component.css.shim.dart 👍</li>
+            <li >app_component.dart </li>
+            <li ><mark>app_component.html → app_component.template.dart </mark></li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section data-transition="none">
+          <h2>Стало</h2>
+          <ul>
+            <li >app_component.css → app_component.css.shim.dart 👍</li>
+            <li >app_component.dart </li>
+            <li >app_component.html 👍→ app_component.template.dart</li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section data-transition="none">
+          <h2>Стало</h2>
+          <ul>
+            <li >app_component.css → app_component.css.shim.dart 👍</li>
+            <li >app_component.dart </li>
+            <li >app_component.html 👍→<mark >app_component.template.dat<t</li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+        history: true,
+        slideNumber: true,
+        controls: false,
+        width: 1920,
+        height: 1080,
+        minScale: 0.5,
+        maxScale: 1.5,
+        margin: 0.02,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
