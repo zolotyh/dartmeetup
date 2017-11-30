@@ -22,6 +22,9 @@
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
     <style>
+    mark {
+    background: #00C4B3;
+    }
       .reveal .solid {
         width: 2ex;
         display:inline-block;
@@ -39,6 +42,10 @@
         display:inline-block;
         float: left;
         font-weight:500;
+      }
+      .reveal pre > code {
+        font-size: 5vh;
+        max-height: 100vh;
       }
 
       .reveal pre.opacity mark,
@@ -473,12 +480,349 @@ ComponentRef build() {
           <h2>Стало</h2>
           <ul>
             <li >app_component.css → app_component.css.shim.dart 👍</li>
-            <li >app_component.dart </li>
-            <li >app_component.html 👍→<mark >app_component.template.dat<t</li>
+            <li ><mark>app_component.dart </mark></li>
+            <li>app_component.html
+              👍→ <mark>app_component.template.dart</mark>
+                </li>
             <li >main.dart другой main.dart </li>
           </ul>
         </section>
+        <section data-transition="slide-in none">
+          <p>
+            app_component.dart
+          </p>
+          <pre><code data-trim style="font-size: 5vh; width: 50%; margin: 0 auto">
+@Component(
+  selector: 'my-app',
+  styleUrls: const ['app_component.css'],
+  templateUrl: 'app_component.html'
+)
+class AppComponent {}
+          </code></pre>
+          <p class="fragment">
+            Кто делает new AppComponent()?
+          </p>
+        </section>
+        <section data-transition="slide-in none">
+          <p>
+          app_component.template.dart
+          </p>
+          <pre><code data-trim>
+import 'package:angular/angular.template.dart' as angular_template;
+import 'package:angular/di.template.dart' as di;
 
+void initReflector() {
+  angular_template.initReflector();
+  di.initReflector();
+
+  _ngRef.registerFactory(AppComponent, () =&gt; new AppComponent());
+}
+          </code></pre>
+        </section>
+        <section data-transition="none">
+          <p>
+          app_component.template.dart
+          </p>
+          <pre><code data-trim data-noescape>
+import 'package:angular/<mark>angular.template.dart</mark>' as angular_template;
+import 'package:angular/<mark>di.template.dart</mark>' as di;
+
+void initReflector() {
+  angular_template.initReflector();
+  di.initReflector();
+
+  _ngRef.registerFactory(AppComponent, () =&gt; new AppComponent());
+}
+          </code></pre>
+        </section>
+        <section data-transition="none">
+          <p>
+          app_component.template.dart
+          </p>
+          <pre><code data-trim data-noescape>
+import 'package:angular/<mark>angular.template.dart</mark>' as angular_template;
+import 'package:angular/<mark>di.template.dart</mark>' as di;
+
+void initReflector() {
+  <mark>angular_template.initReflector();</mark>
+  <mark>di.initReflector();</mark>
+
+  _ngRef.registerFactory(AppComponent, () =&gt; new AppComponent());
+}
+          </code></pre>
+        </section>
+        <section data-transition="none">
+          <p>
+          app_component.template.dart
+          </p>
+          <pre><code data-trim data-noescape>
+void initReflector() {
+  _ngRef.registerFactory(AppComponent, () =&gt; new AppComponent());
+}
+          </code></pre>
+        </section>
+        <section data-transition="none">
+          <p>
+            Инверсия зависимостей
+          </p>
+          <pre><code data-trim>
+<app>
+  <w1 id="{{id}}">
+    <w2></w2>
+  </w1>
+</app>
+          </code></pre>
+          <br>
+
+          <pre class="fragment"><code data-trim>
+<app>
+  <w2>
+    <w1 id="{{id}}"></w1>
+  </w2>
+</app>
+          </code></pre>
+        </section>
+        <section data-transition="slide-in none">
+          <p>
+            app_component.dart
+          </p>
+          <pre><code data-trim style="font-size: 5vh; width: 50%; margin: 0 auto">
+@Component(
+  selector: 'my-app',
+  styleUrls: const ['app_component.css'],
+  templateUrl: 'app_component.html'
+)
+class AppComponent {
+  AppComponent(){ // init }
+}
+          </code></pre>
+        </section>
+        <section data-transition="slide-out none">
+          <p>
+            app_component.dart
+          </p>
+          <pre><code data-noescape data-trim style="font-size: 5vh; width: 50%; margin: 0 auto">
+@Component(
+  selector: 'my-app',
+  styleUrls: const ['app_component.css'],
+  templateUrl: 'app_component.html'
+)
+class AppComponent {
+  AppComponent(<mark>MyService service</mark>){ // init }
+}
+          </code></pre>
+        </section>
+        <section data-transition="slide-in none">
+          <pre><code data-trim>
+...
+registerFactory( AppComponent, (MyService p0) =&gt; new AppComponent(p0));
+
+registerDependencies( AppComponent, const [MyService]);
+
+registerFactory( MyService, () =&gt; new MyService());
+...
+          </code></pre>
+        </section>
+        <section data-transition="none">
+          <pre><code data-trim data-noescape>
+...
+registerFactory( AppComponent, (<mark>MyService p0</mark>) =&gt; new AppComponent(p0));
+
+registerDependencies( AppComponent, const [MyService]);
+
+registerFactory( MyService, () =&gt; new MyService());
+...
+          </code></pre>
+        </section>
+        <section data-transition="none">
+          <pre><code data-trim data-noescape>
+...
+registerFactory( AppComponent, (MyService p0) =&gt; new AppComponent(p0));
+
+registerDependencies( AppComponent, const [<mark>MyService</mark>]);
+
+registerFactory( MyService, () =&gt; new MyService());
+...
+          </code></pre>
+        </section>
+        <section data-transition="slide-out none">
+          <pre><code data-trim data-noescape>
+...
+registerFactory( AppComponent, (MyService p0) =&gt; new AppComponent(p0));
+
+registerDependencies( AppComponent, const [MyService]);
+
+<mark>registerFactory( MyService, () =&gt; new MyService());</mark>
+...
+          </code></pre>
+        </section>
+        <section data-transition="none">
+          <h2>Стало</h2>
+          <ul>
+            <li >app_component.css → app_component.css.shim.dart 👍</li>
+            <li ><mark>app_component.dart </mark></li>
+            <li>app_component.html
+              👍→ <mark>app_component.template.dart</mark>
+                </li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section data-transition="none">
+          <h2>Стало</h2>
+          <ul>
+            <li >app_component.css → app_component.css.shim.dart 👍</li>
+            <li >app_component.dart👍→</li>
+            <li>app_component.html
+              👍→ app_component.template.dart 👍
+                </li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section>
+          <p>А где начало?</p>
+        </section>
+        <section data-transition="slide-in">
+          <p>main.dart до</p>
+          <pre><code data-trim>
+void main() {
+  bootstrap(AppComponent);
+}
+          </code></pre>
+          <div class="fragment">
+            <p>main.dart после</p>
+            <pre><code data-trim>
+import 'main.template.dart' as main_template;
+
+void main() {
+  main_template.initReflector();
+  bootstrapStatic(AppComponent);
+}
+            </code></pre>
+          </div>
+        </section>
+        <section data-transition="slide-out">
+          <p>main.dart до</p>
+          <pre><code data-trim>
+void main() {
+  bootstrap(AppComponent);
+}
+          </code></pre>
+          <div>
+            <p>main.dart после</p>
+            <pre><code data-trim data-noescape>
+<mark>import 'main.template.dart' as main_template;</mark>
+
+void main() {
+  <mark>main_template.initReflector();</mark>
+  bootstrapStatic(AppComponent);
+}
+            </code></pre>
+          </div>
+        </section>
+        <section>
+          <p>main.template.dart</p>
+          <pre><code style="font-size: 5vh" data-trim="">
+import 'main.template.dart' as main;
+import 'package:angular/angular.template.dart' as angular_template;
+import 'package:demo/app_component.template.dart' as app_component;
+
+void initReflector() {
+  main.initReflector();
+  angular_template.initReflector();
+  app_component.initReflector();
+}
+          </code></pre>
+        </section>
+        <section data-transition="none">
+          <h2>Стало</h2>
+          <ul>
+            <li >app_component.css → app_component.css.shim.dart 👍</li>
+            <li >app_component.dart 👍</li>
+            <li>app_component.html
+              👍→ app_component.template.dart 👍
+                </li>
+            <li >main.dart другой main.dart </li>
+          </ul>
+        </section>
+        <section data-transition="none">
+          <h2>Стало</h2>
+          <ul>
+            <li >app_component.css → app_component.css.shim.dart 👍</li>
+            <li >app_component.dart👍→</li>
+            <li>app_component.html
+              👍→ app_component.template.dart 👍
+                </li>
+            <li >main.dart другой main.dart 👍</li>
+            <li >main.template.dart 👍</li>
+          </ul>
+        </section>
+        <section>
+          <img src="img/proc.svg" alt="">
+        </section>
+        <section>
+          <p>
+          &mdash; Почему Dart2JS крутой?
+          </p>
+          <p class="fragment">
+            &mdash; Потому что он поддерживает оптимизации на SSA!
+            <br>
+            (Static single assignment form)
+          </p>
+        </section>
+        <section>
+          <h3>Свертка констант</h3>
+          <p> constant folding</p>
+          <p>До</p>
+          <pre><code data-trim>
+int x = 14;
+int y = 7 - x / 2;
+print (y * (28 / x + 2));
+          </code></pre>
+          <p>После</p>
+          <pre class="fragment"><code data-trim>
+          print('0');
+          </code></pre>
+        </section>
+        <section>
+          <p>UglifyJS</p>
+          <pre><code>
+var x=14,y=7-x/2;console.log(y*(28/x+2));
+          </code></pre>
+        </section>
+        <section>
+          <pre><code data-trim>
+void main(){
+  var car = new Car(new Wheel());
+  car.wheel.pump();
+}
+
+class Car {
+  Wheel wheel;
+  Car(this.wheel);
+}
+
+class Wheel {
+  pump(){ document.body.appendText('test'); }
+}
+          </code></pre>
+        </section>
+        <section>
+          <p>Результат</p>
+          <pre><code>
+      var t1, t2;
+      t1 = document;
+      t2 = t1.body;
+      t2.toString;
+      t2.appendChild(t1.createTextNode("test"));
+          </code></pre>
+        </section>
+        <section>
+          <p>Спасибо!</p>
+          <p>
+            сайт: <a href="//zolotyh.com">zolotyh.com</a>
+          </p>
+          <p>twitter: @zolotyh</p>
+        </section>
 			</div>
 		</div>
 
